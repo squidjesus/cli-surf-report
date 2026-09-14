@@ -9,5 +9,4 @@ wheels/
 # Virtual environments
 .venv
 
-# CSV/Testing files
-*.csv
+TODO.md
