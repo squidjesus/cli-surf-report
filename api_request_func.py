@@ -1,7 +1,7 @@
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
-from surf_spot import Surf_Spot
+from surf_spot_class import Surf_Spot
 
 def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
     atmo_url = "https://api.open-meteo.com/v1/forecast"
@@ -28,6 +28,7 @@ def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
         "timezone": "auto",
         "forecast_days": 1,
         "length_unit": "imperial",
+        "temperature_unit": "fahrenheit",
         "wind_speed_unit": "mph",
     }
 
@@ -38,7 +39,7 @@ def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
     atmo_responses = openmeteo.weather_api(atmo_url, atmo_params)
     marine_responses = openmeteo.weather_api(marine_url, marine_params)
 
-    return (atmo_responses, marine_responses)
+    return (atmo_responses[0], marine_responses[0])
 
 
 
