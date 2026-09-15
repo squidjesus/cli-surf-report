@@ -67,4 +67,22 @@ def add_spot(connection: sqlite3.Connection):
 
 
 def rm_spot(connection: sqlite3.Connection, name: str):
-    pass
+    cursor = connection.cursor()
+    cursor.execute("""
+    SELECT * FROM surf_spots WHERE name LIKE ?
+    COLLATE NOCASE
+    """, (name,))
+
+    spot = cursor.fetchone()
+    if spot is None:
+        click.secho(f"{name} did not match any spots in the database", fg='red')
+        exit(1)
+
+    if click.confirm(f'Delete surf spot {spot[1]}?'):
+        cursor.execute("DELETE FROM surf_spots WHERE id = ?", (spot[0],))
+        connection.commit()
+        click.echo(f"Deleted {name}")
+        exit(0)
+
+    click.echo("Delete cancelled")
+    exit(0)    
