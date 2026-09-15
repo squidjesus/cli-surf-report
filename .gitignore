@@ -10,3 +10,5 @@ wheels/
 .venv
 
 TODO.md
+db_test.sh
+db_test.py

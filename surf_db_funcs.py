@@ -1,10 +1,6 @@
 import sqlite3
 import click
-from csv_funcs import return_spot_tuples
-from pathlib import Path
-
-
-DEMO_PATH = Path("data/demo_surf_spots.csv")
+from demo import load_demo_spots
 
 
 def load_db() -> sqlite3.Connection:
@@ -23,15 +19,19 @@ def load_db() -> sqlite3.Connection:
         )
     """)
 
-    demo_spots = return_spot_tuples(DEMO_PATH)
-
-    cursor.executemany("""
-        INSERT OR IGNORE INTO surf_spots (name, location, type, lat, long, facing, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?)       
-    """, demo_spots)
+    # Prompts to add spots if database is empty
+    cursor.execute("SELECT * FROM surf_spots LIMIT 1")
+    spots = cursor.fetchone()
+    if not spots:
+        click.echo('Surf spots database is empty.')
+        choice = click.prompt("1. Load demo spots\n2. Add a spot\n3. Exit\n", type=click.Choice(["1","2","3"]))
+        match choice:
+            case "1":
+                load_demo_spots(connection)
+            case "2":
+                add_spot(connection)
 
     connection.commit()
-
     return connection
 
 
@@ -45,6 +45,7 @@ def list_spots(connection: sqlite3.Connection, detail: bool):
             click.echo(f"{spot['id']}. {spot['location']}: {spot['name']} | Break Type: {spot['type']} | Facing: {spot['facing']} | Notes: {spot['notes']}")
         else:
             click.echo(f"{spot['id']}. {spot['location']}: {spot['name']}")
+
 
 def add_spot(connection: sqlite3.Connection):
     cursor = connection.cursor()
