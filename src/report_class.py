@@ -1,6 +1,7 @@
 import pandas as pd
 from surf_spot_class import Surf_Spot
 from datetime import datetime
+from deg_to_dir import direction
 
 class Report:
 
@@ -59,8 +60,10 @@ class Report:
         ] 
 
         #Weather Data Properties
-        self.sunrise = datetime.fromtimestamp(daily_atmo[0][0])
-        self.sunset = datetime.fromtimestamp(daily_atmo[1][0])
+        dt_sr = datetime.fromtimestamp(daily_atmo[0][0])
+        self.sunrise = dt_sr.strftime('%I:%M %p')
+        dt_ss = datetime.fromtimestamp(daily_atmo[1][0])
+        self.sunset = dt_ss.strftime('%I:%M %p')
 
         self.hr_wind_speed = hrly_atmo_vars[0]
         self.hr_wind_direction = hrly_atmo_vars[1]
@@ -70,15 +73,15 @@ class Report:
         self.hourly_wave_dir = hrly_marine_vars[1]
         self.hourly_wave_per = hrly_marine_vars[2]
 
-        self.current_atmo_temp = current_atmo_vars[0]
-        self.current_wind_speed = current_atmo_vars[1]
-        self.current_wind_dir = current_atmo_vars[2]
-        self.current_wind_gust = current_atmo_vars[3]
+        self.current_atmo_temp = round(current_atmo_vars[0])
+        self.current_wind_speed = round(current_atmo_vars[1])
+        self.current_wind_dir = round(current_atmo_vars[2])
+        self.current_wind_gust = round(current_atmo_vars[3])
 
-        self.current_wave_height = current_marine_vars[0]
-        self.current_wave_dir = current_marine_vars[1]
-        self.current_wave_per = current_marine_vars[2]
-        self.current_water_temp = current_marine_vars[3]
+        self.current_wave_height = round(current_marine_vars[0], 1)
+        self.current_wave_dir = round(current_marine_vars[1])
+        self.current_wave_per = round(current_marine_vars[2])
+        self.current_water_temp = round(current_marine_vars[3])
 
 
     def __repr__(self):
@@ -89,8 +92,21 @@ class Report:
         return props
     
 
-    def oneline_report(self):
-        pass
+    def current_report(self):
+        data = {
+            'Surf-Spot' : self.surf_spot.name,
+            'Facing' : self.surf_spot.facing,
+            'Sw-Height' : f"{self.current_wave_height}ft",
+            'Sw-Period' : f"{self.current_wave_per}s",
+            'Sw-Dir' : f"{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}",
+            'Wind' : self.current_wind_speed,
+            'Wind-Dir' : direction(self.current_wind_dir),
+            'Air-Temp' : f"{self.current_atmo_temp}{chr(176)} F",
+            'Water-Temp' : f"{self.current_water_temp}{chr(176)} F",
+            'Sunrise' : self.sunrise,
+            'Sunset' : self.sunset
+        }
+        return data
     
 
     def multiline_report(self):

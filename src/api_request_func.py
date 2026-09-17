@@ -21,8 +21,8 @@ def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
     }
 
     marine_params = {
-        "latitude": 54.544587,
-        "longitude": 10.227487,
+        "latitude": surf_spot.lat,
+        "longitude": surf_spot.long,
         "hourly": ["wave_height", "wave_direction", "wave_period"],
         "current": ["wave_height", "wave_direction", "wave_period", "sea_surface_temperature"],
         "timezone": "auto",

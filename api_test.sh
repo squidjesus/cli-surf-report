@@ -1,1 +1,1 @@
-python3 api_test.py
+python3 src/api_test.py

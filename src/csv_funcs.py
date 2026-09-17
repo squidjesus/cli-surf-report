@@ -1,8 +1,6 @@
 import csv
 from pathlib import Path
-
-# Fields in a valid "Surf Spots.csv"
-FIELDS = ['name', 'location', 'type', 'lat', 'long', 'facing', 'notes']
+from config import FIELDS
 
 # Create "surf_spots.csv" in the root folder with the appropriate field names
 def create_spot_file(surf_spots: Path):

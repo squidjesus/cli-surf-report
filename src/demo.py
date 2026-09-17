@@ -2,8 +2,8 @@ import sqlite3
 import click
 from csv_funcs import return_spot_tuples
 from pathlib import Path
+from config import DEMO_PATH
 
-DEMO_PATH = Path("../data/demo_surf_spots.csv")
 
 def load_demo_spots(connection: sqlite3.Connection):
     cursor = connection.cursor()

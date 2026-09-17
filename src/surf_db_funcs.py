@@ -1,12 +1,13 @@
 import sqlite3
 import click
+from config import DB_PATH
 from surf_spot_class import Surf_Spot
 from demo import load_demo_spots
 from query_helpers import get_by_name, del_by_id
 
 
 def load_db() -> sqlite3.Connection:
-    connection = sqlite3.connect("../data/surf_spots.db")
+    connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS surf_spots (
@@ -74,6 +75,7 @@ def add_spot(connection: sqlite3.Connection):
 def get_spot(connection: sqlite3.Connection, name: str) -> Surf_Spot:
     spot = get_by_name(connection, name)
     return Surf_Spot(**spot)
+
 
 def rm_spot(connection: sqlite3.Connection, name: str):
     spot = get_by_name(connection, name)
