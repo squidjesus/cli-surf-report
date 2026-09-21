@@ -1,8 +1,8 @@
-from api_request_func import openmeteo_request
-from surf_db_funcs import get_spot
-from report_class import Report
-from config import DB_PATH
-from report_funcs import print_current_reports
+from src.api_request import openmeteo_request
+from src.surf_db_funcs import get_spot
+from src.report_class import Report
+from src.config import DB_PATH
+from src.report_funcs import print_current_reports
 import sqlite3
 
 connection = sqlite3.connect(DB_PATH)

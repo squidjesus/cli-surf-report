@@ -1,6 +1,5 @@
 import sqlite3
 import click
-from surf_spot_class import Surf_Spot
 
 
 def get_by_name(connection: sqlite3.Connection, name: str):
@@ -14,7 +13,7 @@ def get_by_name(connection: sqlite3.Connection, name: str):
     spot = cursor.fetchone()
     if spot is None:
         click.secho(f"{name} did not match any spots in the database", fg='red')
-        exit(1)
+        return
 
     return spot
 

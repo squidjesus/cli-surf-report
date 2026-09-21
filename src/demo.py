@@ -1,8 +1,7 @@
 import sqlite3
 import click
-from csv_funcs import return_spot_tuples
-from pathlib import Path
-from config import DEMO_PATH
+from src.csv_funcs import return_spot_tuples
+from src.config import DEMO_PATH
 
 
 def load_demo_spots(connection: sqlite3.Connection):

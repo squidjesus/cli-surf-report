@@ -1,4 +1,4 @@
-from surf_spot_class import Direction
+from src.surf_spot_class import Direction
 
 # Return the closest "Direction" for a given value in degrees
 def direction(degrees: int) -> Direction:

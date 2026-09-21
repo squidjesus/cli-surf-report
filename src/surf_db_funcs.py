@@ -1,9 +1,9 @@
 import sqlite3
 import click
-from config import DB_PATH
-from surf_spot_class import Surf_Spot
-from demo import load_demo_spots
-from query_helpers import get_by_name, del_by_id
+from src.config import DB_PATH
+from src.surf_spot_class import Surf_Spot
+from src.demo import load_demo_spots
+from src.query_helpers import get_by_name, del_by_id
 
 
 def load_db() -> sqlite3.Connection:
@@ -74,7 +74,20 @@ def add_spot(connection: sqlite3.Connection):
 
 def get_spot(connection: sqlite3.Connection, name: str) -> Surf_Spot:
     spot = get_by_name(connection, name)
+    if spot == None:
+        return
     return Surf_Spot(**spot)
+
+
+def get_all_spots(connection: sqlite3.Connection) -> str:
+    spot_names = []
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+    cursor.execute("SELECT * from surf_spots")
+    spots = cursor.fetchall()
+    for spot in spots:
+        spot_names.append(spot['name'])
+    return spot_names
 
 
 def rm_spot(connection: sqlite3.Connection, name: str):

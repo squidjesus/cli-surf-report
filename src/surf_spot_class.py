@@ -27,7 +27,7 @@ class Surf_Spot:
         self.type = type
         self.lat = lat
         self.long = long
-        self.facing = facing
+        self.facing = Direction[facing]
         self.notes = notes
 
     def __repr__(self):

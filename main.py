@@ -1,15 +1,34 @@
 import click
-from pathlib import Path
-from demo import load_demo_spots
-from csv_funcs import create_spot_file
-from callbacks import validate_ext_csv, validate_type_str
-from surf_db_funcs import load_db, list_spots, add_spot, rm_spot
+from src.report_class import Report
+from src.demo import load_demo_spots
+from src.report_funcs import data_to_table
+from src.csv_funcs import create_spot_file
+from src.api_request import openmeteo_request
+from src.callbacks import validate_ext_csv, validate_type_str
+from src.surf_db_funcs import load_db, list_spots, add_spot, rm_spot, get_spot, get_all_spots
 
 
 @click.group()
 def surf():
     pass
 
+@surf.command(help="Get the surf report for given spots")
+@click.option('-a', '--all', is_flag=True, default=False)
+@click.argument('spots', nargs=-1, default=['all'], required=False, help="Name(s) of surf spots to report, must match 'name' from the database")
+def report(all, spots):
+    db = load_db()
+    if all or spots[0] == 'all':
+        spots = get_all_spots(db)
+    reports = []
+    colors = []
+    for s in spots:
+        spot = get_spot(db, s)
+        if spot == None:
+            continue
+        api_req = openmeteo_request(spot)
+        report = Report(api_req, spot)
+        reports.append(report)
+    data_to_table(reports)
 
 # List surf spots in the database
 @surf.command(help="Lists all saved surf spots, use '-d' or '--detail' to show additional spot details.")
@@ -56,17 +75,6 @@ def demo_spots():
     if click.confirm("Add demo spots to the database?"):
         load_demo_spots(db)
     db.close()
-
-
-@surf.command(help="Get the surf report for a given spot. Enter the --name. Get extended details with -d")
-@click.option("-n", "name", help="Name of the surf spot, must match a spot name from the surf spots file")
-@click.option("-d", "--detailed", help="Add this flag to see extended report with hourly forecast data")
-def report(name, detail=None):
-
-    click.echo(f"Getting report for: {name}")
-    get_surf_report(name)
-    surf_path = Path(config['spots_file_location'])
-
 
 
 if __name__ == "__main__":

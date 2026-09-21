@@ -1,7 +1,7 @@
-import pandas as pd
-from surf_spot_class import Surf_Spot
+from src.surf_spot_class import Surf_Spot
 from datetime import datetime
-from deg_to_dir import direction
+from src.deg_to_dir import direction
+from src.api_data import wind_dir_rating, swell_dir_rating, swell_size_rating, swell_per_rating
 
 class Report:
 
@@ -84,6 +84,13 @@ class Report:
         self.current_water_temp = round(current_marine_vars[3])
 
 
+        #ratings:
+        self.wind_dir_rating = wind_dir_rating(self)[0].value
+        self.wind_condition = wind_dir_rating(self)[1].value
+        self.swell_dir_rating = swell_dir_rating(self).value
+        self.swell_size_rating = swell_size_rating(self).value
+        self.swell_per_rating = swell_per_rating(self).value
+
     def __repr__(self):
         all_props = []
         for key, value in vars(self).items():
@@ -94,17 +101,18 @@ class Report:
 
     def current_report(self):
         data = {
-            'Surf-Spot' : self.surf_spot.name,
-            'Facing' : self.surf_spot.facing,
-            'Sw-Height' : f"{self.current_wave_height}ft",
-            'Sw-Period' : f"{self.current_wave_per}s",
-            'Sw-Dir' : f"{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}",
-            'Wind' : self.current_wind_speed,
-            'Wind-Dir' : direction(self.current_wind_dir),
-            'Air-Temp' : f"{self.current_atmo_temp}{chr(176)} F",
-            'Water-Temp' : f"{self.current_water_temp}{chr(176)} F",
-            'Sunrise' : self.sunrise,
-            'Sunset' : self.sunset
+            'Surf-Spot'     : self.surf_spot.name,
+            'Location'      : self.surf_spot.location,
+            'Facing'        : f"{self.surf_spot.facing.name}",
+            'Sw-Height'     : f"[{self.swell_size_rating}]{self.current_wave_height}ft[/{self.swell_size_rating}]",
+            'Sw-Period'     : f"[{self.swell_per_rating}]{self.current_wave_per}s[/{self.swell_per_rating}]",
+            'Sw-Dir'        : f"[{self.swell_dir_rating}]{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}[/{self.swell_dir_rating}]",
+            'Wind'          : f"[{self.wind_dir_rating}]{self.current_wind_speed}mph {self.wind_condition}[/{self.wind_dir_rating}]",
+            'Wind-Dir'      : f"[{self.wind_dir_rating}]{direction(self.current_wind_dir)}: {self.current_wind_dir}{chr(176)}[/{self.wind_dir_rating}]",
+            'Air-Temp'      : f"{self.current_atmo_temp}{chr(176)} F",
+            'Water-Temp'    : f"{self.current_water_temp}{chr(176)} F",
+            'Sunrise'       : self.sunrise,
+            'Sunset'        : self.sunset
         }
         return data
     

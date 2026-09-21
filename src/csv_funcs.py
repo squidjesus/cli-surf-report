@@ -1,6 +1,6 @@
 import csv
 from pathlib import Path
-from config import FIELDS
+from src.config import FIELDS
 
 # Create "surf_spots.csv" in the root folder with the appropriate field names
 def create_spot_file(surf_spots: Path):
