@@ -1,7 +1,6 @@
-from src.surf_spot_class import Surf_Spot
+from surf_spot_class import Surf_Spot
 from datetime import datetime
-from src.deg_to_dir import direction
-from src.api_data import wind_dir_rating, swell_dir_rating, swell_size_rating, swell_per_rating
+from quality_calcs import wind_dir_rating, swell_dir_rating, swell_size_rating, swell_per_rating, direction
 
 class Report:
 
@@ -104,9 +103,9 @@ class Report:
             'Surf-Spot'     : self.surf_spot.name,
             'Location'      : self.surf_spot.location,
             'Facing'        : f"{self.surf_spot.facing.name}",
-            'Sw-Height'     : f"[{self.swell_size_rating}]{self.current_wave_height}ft[/{self.swell_size_rating}]",
-            'Sw-Period'     : f"[{self.swell_per_rating}]{self.current_wave_per}s[/{self.swell_per_rating}]",
-            'Sw-Dir'        : f"[{self.swell_dir_rating}]{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}[/{self.swell_dir_rating}]",
+            'Swell Height'  : f"[{self.swell_size_rating}]{self.current_wave_height}ft[/{self.swell_size_rating}]",
+            'Period'        : f"[{self.swell_per_rating}]{self.current_wave_per}s[/{self.swell_per_rating}]",
+            'Swell Dir'     : f"[{self.swell_dir_rating}]{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}[/{self.swell_dir_rating}]",
             'Wind'          : f"[{self.wind_dir_rating}]{self.current_wind_speed}mph {self.wind_condition}[/{self.wind_dir_rating}]",
             'Wind-Dir'      : f"[{self.wind_dir_rating}]{direction(self.current_wind_dir)}: {self.current_wind_dir}{chr(176)}[/{self.wind_dir_rating}]",
             'Air-Temp'      : f"{self.current_atmo_temp}{chr(176)} F",

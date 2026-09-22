@@ -1,12 +1,11 @@
 import sqlite3
 import click
-from src.config import DB_PATH
-from src.surf_spot_class import Surf_Spot
-from src.demo import load_demo_spots
-from src.query_helpers import get_by_name, del_by_id
+from config import DB_PATH, DEMO_PATH
+from surf_spot_class import Surf_Spot
+from query_helpers import get_by_name, del_by_id, return_spot_tuples
 
 
-def load_db() -> sqlite3.Connection:
+def load_db(demo=None) -> sqlite3.Connection:
     connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
     cursor.execute("""
@@ -21,6 +20,13 @@ def load_db() -> sqlite3.Connection:
             notes TEXT
         )
     """)
+    if demo:
+        if click.confirm("Add demo spots to the database?"):
+            load_demo_spots(connection)
+            exit(0)
+        else:
+            click.echo("Exiting")
+            exit(0)
 
     # Prompts to add spots if database is empty
     cursor.execute("SELECT * FROM surf_spots LIMIT 1")
@@ -79,7 +85,7 @@ def get_spot(connection: sqlite3.Connection, name: str) -> Surf_Spot:
     return Surf_Spot(**spot)
 
 
-def get_all_spots(connection: sqlite3.Connection) -> str:
+def get_all_spots(connection: sqlite3.Connection) -> list[str]:
     spot_names = []
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
@@ -100,3 +106,13 @@ def rm_spot(connection: sqlite3.Connection, name: str):
 
     click.echo("Delete cancelled")
     exit(0)    
+
+
+def load_demo_spots(connection: sqlite3.Connection):
+    cursor = connection.cursor()
+    query = "INSERT OR IGNORE INTO surf_spots (name, location, type, lat, long, facing, notes) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    tuples = return_spot_tuples(DEMO_PATH)
+    for tuple in tuples:
+        cursor.execute(query, tuple)
+    connection.commit()
+    click.echo("Demo spots loaded")

@@ -1,7 +1,7 @@
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
-from src.surf_spot_class import Surf_Spot
+from surf_spot_class import Surf_Spot
 
 def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
     atmo_url = "https://api.open-meteo.com/v1/forecast"
