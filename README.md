@@ -80,8 +80,10 @@ Example: **SE** facing surf spot = ideal wind direction of **NW**
 
 The wind condition color rating is also affected by the magnitude of wind present, as strong winds can have a negative impact regardless of a 'good' direction, and vice-versa.
 
-Notes:
-I am planning to work on a more complex and holistic condition "rating" system, but I pretty much hit the limit on scope/time for this project :)
+Example output:
+<img width="1238" height="152" alt="Screenshot 2026-09-22 084737" src="https://github.com/user-attachments/assets/791b347a-bed8-4718-b211-b74827f56047" />
+
+
 
 ## Data Sources
 
