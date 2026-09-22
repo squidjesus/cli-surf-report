@@ -9,9 +9,9 @@ def surf():
     """
     Check the current surf conditions at your favorite spots!
 
-    Try it out with: 'surf report' (On first run, choose option 1 to load the demo spots) 
+    Try it out with: 'surf report' (On first run, choose option 1 to load the included demo spots) 
 
-    Weather/Marine data is from OpenMeteo. 
+    Weather/Marine data provided by Open-Meteo. 
     """
     pass
 
@@ -28,7 +28,7 @@ def report(all, spots):
 
 
 # List surf spots in the database
-@surf.command(help="Lists all saved surf spots, use '-d' or '--detail' to show additional spot details.")
+@surf.command(help="List saved surf spots, defaults to 'all', use '-d' or '--detail' to show additional spot details.")
 @click.option('-d', '--detail', is_flag=True, default=False, help="Shows all spot details")
 @click.option('-a', '--all', is_flag=True, default=False, help="List all spots in the database")
 @click.argument('spots', nargs=-1, default=['all'], required=False, help="Name(s) of surf spots to list, must match 'name' from the database")
