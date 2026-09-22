@@ -100,16 +100,16 @@ class Report:
 
     def current_report(self):
         data = {
-            'Surf-Spot'     : self.surf_spot.name,
+            'Name'          : self.surf_spot.name,
             'Location'      : self.surf_spot.location,
             'Facing'        : f"{self.surf_spot.facing.name}",
-            'Swell Height'  : f"[{self.swell_size_rating}]{self.current_wave_height}ft[/{self.swell_size_rating}]",
+            'Swell'         : f"[{self.swell_size_rating}]{self.current_wave_height}ft[/{self.swell_size_rating}]",
             'Period'        : f"[{self.swell_per_rating}]{self.current_wave_per}s[/{self.swell_per_rating}]",
-            'Swell Dir'     : f"[{self.swell_dir_rating}]{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}[/{self.swell_dir_rating}]",
+            'Dir'           : f"[{self.swell_dir_rating}]{direction(self.current_wave_dir)}: {self.current_wave_dir}{chr(176)}[/{self.swell_dir_rating}]",
             'Wind'          : f"[{self.wind_dir_rating}]{self.current_wind_speed}mph {self.wind_condition}[/{self.wind_dir_rating}]",
             'Wind-Dir'      : f"[{self.wind_dir_rating}]{direction(self.current_wind_dir)}: {self.current_wind_dir}{chr(176)}[/{self.wind_dir_rating}]",
-            'Air-Temp'      : f"{self.current_atmo_temp}{chr(176)} F",
-            'Water-Temp'    : f"{self.current_water_temp}{chr(176)} F",
+            'Air'           : f"{self.current_atmo_temp}{chr(176)} F",
+            'Water'         : f"{self.current_water_temp}{chr(176)} F",
             'Sunrise'       : self.sunrise,
             'Sunset'        : self.sunset
         }

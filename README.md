@@ -20,6 +20,13 @@ Or with `uv`:
 ```bash
 uv tool install "git+https://github.com/squidjesus/cli-surf-report.git"
 ```
+
+On Windows in Powershell (assuming py 3.13 installed):
+
+```bash
+py -3.13 -m pip install "git+https://github.com/squidjesus/cli-surf-report.git"
+```
+
 For development, clone the repository and install in editable mode:
 
 ```bash
