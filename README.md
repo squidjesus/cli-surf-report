@@ -87,10 +87,11 @@ I am planning to work on a more complex and holistic condition "rating" system, 
 
 Weather and Marine data provided by the [Open-Meteo API](https://open-meteo.com/).
 
-## Features I hope to add
+## Features on my list to add:
 
 - Hourly forecast report.
 - Overall 'condition rating' for a set of conditions at a given spot.
 - Tide information (all sources of Tide data I found required API keys, wanted to keep it simple for now.)
 - Bulk-import of surf spots.
 - Secondary/tertiary swell data.
+- "Favoriting" or grouping spots.
