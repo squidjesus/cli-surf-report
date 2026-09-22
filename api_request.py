@@ -1,6 +1,4 @@
 import openmeteo_requests
-import requests_cache
-from retry_requests import retry
 from surf_spot_class import Surf_Spot
 
 def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
@@ -32,9 +30,7 @@ def openmeteo_request(surf_spot: Surf_Spot) -> tuple:
         "wind_speed_unit": "mph",
     }
 
-    cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-    openmeteo = openmeteo_requests.Client(session = retry_session)
+    openmeteo = openmeteo_requests.Client()
 
     atmo_responses = openmeteo.weather_api(atmo_url, atmo_params)
     marine_responses = openmeteo.weather_api(marine_url, marine_params)

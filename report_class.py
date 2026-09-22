@@ -15,30 +15,30 @@ class Report:
         #Atmo Daily: [sunrise, sunset]
         daily = self.atmo_response.Daily()
         daily_atmo = [
-            daily.Variables(0).ValuesInt64AsNumpy(),
-            daily.Variables(1).ValuesInt64AsNumpy()
+            daily.Variables(0).ValuesInt64(0),
+            daily.Variables(1).ValuesInt64(0)
         ]
 
         #Atmo Hourly: [wind speed, wind direction, wind gusts]
-        hrly_atmo = self.atmo_response.Hourly()
-        hrly_atmo_vars = [
-            hrly_atmo.Variables(0).ValuesAsNumpy(),
-            hrly_atmo.Variables(1).ValuesAsNumpy(), 
-            hrly_atmo.Variables(2).ValuesAsNumpy()
-        ]
+        #hrly_atmo = self.atmo_response.Hourly()
+        #hrly_atmo_vars = [
+        #    hrly_atmo.Variables(0).ValuesAsNumpy(),
+        #    hrly_atmo.Variables(1).ValuesAsNumpy(), 
+        #    hrly_atmo.Variables(2).ValuesAsNumpy()
+        #]
 
         #Marine Hourly: [wave height, wave direction, wave period]
-        hrly_marine = self.marine_response.Hourly()
-        hrly_marine_vars = [
-            hrly_marine.Variables(0).ValuesAsNumpy(),
-            hrly_marine.Variables(1).ValuesAsNumpy(),
-            hrly_marine.Variables(2).ValuesAsNumpy()
-        ]
+        #hrly_marine = self.marine_response.Hourly()
+        #hrly_marine_vars = [
+        #    hrly_marine.Variables(0).ValuesAsNumpy(),
+        #   hrly_marine.Variables(1).ValuesAsNumpy(),
+        #   hrly_marine.Variables(2).ValuesAsNumpy()
+        #
 
         #Time data
-        self.atmo_hourly_time = datetime.fromtimestamp(hrly_atmo.Time())
-        self.atmo_hourly_time_end = datetime.fromtimestamp(hrly_atmo.TimeEnd())
-        self.atmo_hourly_interval = hrly_atmo.Interval()
+        #self.atmo_hourly_time = datetime.fromtimestamp(hrly_atmo.Time())
+        #self.atmo_hourly_time_end = datetime.fromtimestamp(hrly_atmo.TimeEnd())
+        #self.atmo_hourly_interval = hrly_atmo.Interval()
 
         #Atmo Current: [temp, wind speed, wind direction, wind gusts]
         current_atmo = self.atmo_response.Current()
@@ -59,18 +59,18 @@ class Report:
         ] 
 
         #Weather Data Properties
-        dt_sr = datetime.fromtimestamp(daily_atmo[0][0])
+        dt_sr = datetime.fromtimestamp(daily_atmo[0])
         self.sunrise = dt_sr.strftime('%I:%M %p')
-        dt_ss = datetime.fromtimestamp(daily_atmo[1][0])
+        dt_ss = datetime.fromtimestamp(daily_atmo[1])
         self.sunset = dt_ss.strftime('%I:%M %p')
 
-        self.hr_wind_speed = hrly_atmo_vars[0]
-        self.hr_wind_direction = hrly_atmo_vars[1]
-        self.hr_wind_gust = hrly_atmo_vars[2]
+        #self.hr_wind_speed = hrly_atmo_vars[0]
+        #self.hr_wind_direction = hrly_atmo_vars[1]
+        #self.hr_wind_gust = hrly_atmo_vars[2]
 
-        self.hourly_wave_height = hrly_marine_vars[0]
-        self.hourly_wave_dir = hrly_marine_vars[1]
-        self.hourly_wave_per = hrly_marine_vars[2]
+        #self.hourly_wave_height = hrly_marine_vars[0]
+        #self.hourly_wave_dir = hrly_marine_vars[1]
+        #self.hourly_wave_per = hrly_marine_vars[2]
 
         self.current_atmo_temp = round(current_atmo_vars[0])
         self.current_wind_speed = round(current_atmo_vars[1])

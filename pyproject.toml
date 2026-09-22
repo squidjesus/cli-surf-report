@@ -6,18 +6,31 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.5.0",
-    "numpy>=2.5.2",
     "openmeteo-requests>=1.7.5",
     "rich>=13.0.0",
-    "requests-cache>=1.3.3",
-    "retry-requests>=2.0.0",
 ]
 [project.scripts]
 surf = "main:surf"
 
-[tool.flit.module]
-name = "main"
+[tool.setuptools]
+py-modules = [
+    "api_request",
+    "callbacks",
+    "config",
+    "database_functions",
+    "enums",
+    "main",
+    "quality_calcs",
+    "query_helpers",
+    "report_class",
+    "rich_functions",
+    "surf_spot_class",
+]
+packages = ["data"]
+
+[tool.setuptools.package-data]
+data = ["*.csv"]
 
 [build-system]
-requires = ["flit_core<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
