@@ -65,7 +65,9 @@ The database is stored at:
 
 `surf list` - List all saved spots.
 
-`surf list --detail` - List saved spots with all details.
+`surf list Pipeline Matunuck` - List given spots 
+
+`surf list Pipeline --detail` or `-d` - Display extra details (Type, Facing, Notes, etc.).
 
 `surf add` - Add a surf spot via the subsequent prompts.
 

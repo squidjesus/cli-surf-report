@@ -44,11 +44,17 @@ def load_db(demo=None) -> sqlite3.Connection:
     return connection
 
 
-def list_spots(connection: sqlite3.Connection, detail: bool):
+def list_spots(connection: sqlite3.Connection, detail: bool, names: tuple=None):
+    spots = []
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
-    cursor.execute("SELECT * from surf_spots")
-    spots = cursor.fetchall()
+    if names is not None:
+        for name in names:
+            spot = get_by_name(connection, name)
+            spots.append(spot)
+    else:
+        cursor.execute("SELECT * from surf_spots")
+        spots = cursor.fetchall()
     i = 1
     for spot in spots:
         if detail == True:
@@ -56,6 +62,7 @@ def list_spots(connection: sqlite3.Connection, detail: bool):
         else:
             click.echo(f"{i}. {spot['location']}: {spot['name']}")
         i += 1
+
 
 
 def add_spot(connection: sqlite3.Connection):
